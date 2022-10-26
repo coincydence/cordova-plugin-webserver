@@ -4,6 +4,7 @@ import android.util.Log;
 
 import org.apache.cordova.*;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class Webserver extends CordovaPlugin {
     }
 
     @Override
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+    public boolean execute(String action, JSONObject args, CallbackContext callbackContext) throws JSONException {
         if ("start".equals(action)) {
             try {
                 this.start(args, callbackContext);
@@ -52,11 +53,16 @@ public class Webserver extends CordovaPlugin {
      * @param args
      * @param callbackContext
      */
-    private void start(JSONArray args, CallbackContext callbackContext) throws JSONException, IOException {
-        int port = 8080;
+    private void start(JSONObject args, CallbackContext callbackContext) throws JSONException, IOException {
 
-        if (args.length() == 1) {
-            port = args.getInt(0);
+        int port = 8080;
+        String rootDir = null;
+
+        if (args.has("port")) {
+            port = args.getInt("port");
+        }
+        if (args.has("directory")) {
+            port = args.getString("directory");
         }
 
         if (this.nanoHTTPDWebserver != null){

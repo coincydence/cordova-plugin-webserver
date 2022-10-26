@@ -6,10 +6,16 @@ const ONREQUEST_FUNCTION = 'onRequest';
 const SENDRESPONSE_FUNCION = 'sendResponse';
 const STOP_FUNCTION = 'stop';
 
-export function start(success_callback, error_callback, port) {
-  let params = [];
+export function start(success_callback, error_callback, port, directory) {
+  let params = {
+    port : 8080,
+    directory : null
+  };
   if (port) {
-    params.push(port);
+    params.port = port;
+  }
+  if (directory) {
+    params.directory = directory;
   }
   exec(
     success_callback,
